@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'dromedary'
+Dromedary.init(ARGV[0])
