@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'dromedary'
-  s.version     = '0.1.00'
+  s.version     = '0.2.0'
   s.executables << 'dromedary'
   s.date        = '2017-12-07'
   s.summary     = 'Test reporting helper gem'
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Denys Bazarnyi']
   s.email       = 'denys.bazarnyi@storecast.de'
   s.files       = ['lib/dromedary.rb', 'lib/dromedary_initializer.rb']
-  # s.homepage    =
-  #     'http://rubygems.org/gems/dromedary'
+  s.homepage    =
+      'http://rubygems.org/gems/dromedary'
   s.license     = 'MIT'
 end
