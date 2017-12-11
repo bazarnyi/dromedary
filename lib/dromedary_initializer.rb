@@ -1,18 +1,21 @@
 module DromedaryInitializer
   def self.run
-    if cucumber_initialized?
+    if cucumber_not_initialized?
       report_no_cucumber_found
     elsif already_initialized?
       report_already_initialized
     else
       create_file 'config/dromedary.yml'
       create_file 'features/support/dromedary_hooks.rb'
+      create_file 'config/cucumber.yml'
+      create_file 'Rakefile'
 
       update_file 'config/dromedary.yml', dromedary_config_content
       update_file 'features/support/dromedary_hooks.rb', dromedary_hooks_content
 
       update_file 'config/cucumber.yml', cucumber_config_content
-      update_file 'features/support/env.rb', cucumber_env_content
+      update_file '.gitignore', gitignore_content
+      update_file 'Rakefile', rakefile_content
     end
   end
 
@@ -47,7 +50,7 @@ module DromedaryInitializer
     report_updating(file_name)
   end
 
-  def self.cucumber_initialized?
+  def self.cucumber_not_initialized?
     !File.exist?('features/support/env.rb')
   end
 
@@ -180,15 +183,24 @@ module DromedaryInitializer
      'rerun_formatter: --format rerun --out artifacts/test_results/fails.log']
   end
 
-  def self.cucumber_env_content
+  def self.gitignore_content
+    ['',
+     gitignore_structure]
+  end
+
+  def self.gitignore_structure
+    ['artifacts/']
+  end
+
+  def self.rakefile_content
     ['',
      '',
      '# require Dromedary gem dependencies',
-     cucumber_env_structure]
+     rakefile_structure]
   end
 
-  def self.cucumber_env_structure
-    ["require 'dromedary'",
+  def self.rakefile_structure
+    ["require 'dromedary/tasks'",
      'DROMEDARY = YAML.load_file("#{Dir.pwd}/config/dromedary.yml")']
   end
 end
