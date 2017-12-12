@@ -19,17 +19,9 @@ end
 
 desc 'This task creates required folder tree for reporting'
 task :create_folders do
-  %W[artifacts].each do |dir_name|
+  %W[artifacts artifacts\cucumber_json_reports artifacts\junit_xml_reports artifacts\testrail_reports artifacts\final_test_reports].each do |dir_name|
     sh "mkdir #{dir_name}" do
       #ignore errors
-    end
-    sh "cd #{dir_name}" do
-      #ignore errors
-    end
-    %W[cucumber_json_reports junit_xml_reports testrail_reports final_test_reports].each do |subdir_name|
-      sh "mkdir #{subdir_name}" do
-        #ignore errors
-      end
     end
   end
 end
