@@ -137,10 +137,12 @@ end
 
 desc 'Cleaning rudimentary folders'
 task :clean_folders do
-  %W[artifacts/cucumber_json_reports artifacts/junit_xml_reports artifacts/testrail_reports].each do |dir_name|
-    sh "rmdir #{dir_name}" do
-      #ignore errors
-    end
+  catalog = 'artifacts'
+  dirs = Dir.entries(catalog).drop 2
+  dirs.delete('final_test_reports')
+  dirs.map! { |f| "#{catalog}/#{f}" }
+  dirs.each do |dir_path|
+    remove_dir dir_path
   end
 end
 
