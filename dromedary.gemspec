@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'dromedary'
-  s.version     = '0.2.27'
+  s.version     = '0.2.28'
   s.executables << 'dromedary'
   s.date        = '2017-12-07'
   s.summary     = 'Test reporting helper gem'
