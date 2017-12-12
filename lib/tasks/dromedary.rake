@@ -26,11 +26,10 @@ task :create_folders do
     sh "cd #{dir_name}" do
       #ignore errors
     end
-  end
-
-  %W[cucumber_json_reports junit_xml_reports testrail_reports final_test_reports].each do |dir_name|
-    sh "mkdir #{dir_name}" do
-      #ignore errors
+    %W[cucumber_json_reports junit_xml_reports testrail_reports final_test_reports].each do |subdir_name|
+      sh "mkdir #{subdir_name}" do
+        #ignore errors
+      end
     end
   end
 end
