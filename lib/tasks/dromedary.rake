@@ -127,6 +127,32 @@ task :clean_junit do
   rm files
 end
 
+desc 'Cleaning interim Cucumber JSON reports'
+task :clean_cucumber_json do
+  catalog = 'artifacts/cucumber_json_reports'
+  files = Dir.entries(catalog).delete_if { |entry| File.directory?(entry) }
+  files.map! { |f| "#{catalog}/#{f}" }
+  rm files
+end
+
+desc 'Cleaning rudimentary folders'
+task :clean_folders do
+  %W[artifacts/cucumber_json_reports artifacts/junit_xml_reports artifacts/testrail_reports].each do |dir_name|
+    sh "rmdir #{dir_name}" do
+      #ignore errors
+    end
+  end
+end
+
+desc 'Cleaning project tree from unnecessary files and folders'
+task :final_clean_ups do
+  %W[clean_test_rail clean_junit clean_cucumber_json clean_folders].each do |task_name|
+    sh "rake #{task_name}" do
+      #ignore errors
+    end
+  end
+end
+
 # Report generation tasks
 
 desc 'Merging interim JUnit reports to final JUnit report'

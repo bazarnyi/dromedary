@@ -208,7 +208,7 @@ module DromedaryInitializer
      "desc 'Rake task to run all the Dromedary sequence'",
      'task :run_dromedary, :run_on do |task, args|',
      '  ENV["RUN_ON"] = "#{args[:run_on]}"',
-     '  %W[prepare_for_a_ride store_cases_titles run_cucumber merge_junit_reports get_case_ids[run] rerun_if_needed generate_cucumber_json_reports create_run[smoke,#{args[:run_on]}] close_run[#{args[:run_on]}]].each do |task_name|',
+     '  %W[prepare_for_a_ride store_cases_titles run_cucumber merge_junit_reports get_case_ids[run] rerun_if_needed generate_cucumber_json_reports create_run[smoke,#{args[:run_on]}] close_run[#{args[:run_on]}] final_clean_ups].each do |task_name|',
      '    sh "rake #{task_name}" do',
      '      #ignore errors',
      '    end',
