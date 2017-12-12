@@ -16,6 +16,7 @@ module DromedaryInitializer
       update_file 'config/cucumber.yml', cucumber_config_content
       update_file '.gitignore', gitignore_content
       update_file 'Rakefile', rakefile_content
+      update_file 'Gemfile', gemfile_content
     end
   end
 
@@ -162,7 +163,7 @@ module DromedaryInitializer
      '',
      '  # setting TestRail to generate reports at specific folder',
      "  unless @local == 'true'",
-     '    File.open("artifacts/test_rail_results/file_#{UUID.generate(:compact).to_s}.json", "w") do |file|',
+     '    File.open("artifacts/testrail_reports/file_#{Time.now.to_i}.json}.json", "w") do |file|',
      '      file.puts @results.to_json',
      '    end',
      '  end',
@@ -178,9 +179,10 @@ module DromedaryInitializer
   end
 
   def self.cucumber_config_structure
-    ['junit_report: --format pretty --format junit --out artifacts/junit_reports',
-     'json_report: --format json --out artifacts/cucumber_json_reports/run_report.json',
-     'rerun_formatter: --format rerun --out artifacts/test_results/fails.log']
+    ['junit_report: --format pretty --format junit --out artifacts/junit_xml_reports',
+     'run_json_report: --format json --out artifacts/cucumber_json_reports/run.json',
+     'rerun_json_report: --format json --out artifacts/cucumber_json_reports/rerun.json',
+     'rerun_formatter: --format rerun --out artifacts/final_test_reports/fails.log']
   end
 
   def self.gitignore_content
@@ -201,6 +203,25 @@ module DromedaryInitializer
 
   def self.rakefile_structure
     ["require 'dromedary/tasks'",
-     'DROMEDARY = YAML.load_file("#{Dir.pwd}/config/dromedary.yml")']
+     '',
+     '# describing Dromedary rake tasks',
+     "desc 'Rake task to run all the Dromedary sequence'",
+     'task :run_dromedary, :run_on do |task, args|',
+     '  ENV["RUN_ON"] = "#{args[:run_on]}"',
+     '  %W[prepare_for_a_ride store_cases_titles run_cucumber merge_junit_reports get_case_ids[run] rerun_if_needed generate_cucumber_json_reports create_run[smoke,#{args[:run_on]}] close_run[#{args[:run_on]}]].each do |task_name|',
+     '    sh "rake #{task_name}" do',
+     '      #ignore errors',
+     '    end',
+     '  end',
+     'end']
+  end
+
+  def self.gemfile_content
+    ['',
+     gemfile_structure]
+  end
+
+  def self.gemfile_structure
+    ["gem 'junit_merge'"]
   end
 end
