@@ -5,6 +5,7 @@ module DromedaryInitializer
     elsif already_initialized?
       report_already_initialized
     else
+      create_directory 'config'
       create_file 'config/dromedary.yml'
       create_file 'features/support/dromedary_hooks.rb'
       create_file 'config/cucumber.yml'
